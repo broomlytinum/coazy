@@ -3,11 +3,12 @@ const path = require("path");
 const app = express();
 
 const Discord = require("discord.js");
-
 const client = new Discord.Client();
 
+const fs = require("fs");
+
 var JSDOM = require('jsdom').JSDOM;
-var jsdom = new JSDOM('', {runScripts: 'dangerously'});
+var jsdom = new JSDOM("<html><head></head><body><div id=\"container\" style=\"width: 500px; height: 400px;\"></div></body></html>", {runScripts: 'dangerously'});
 var window = jsdom.window;
 
 const https = require("https");
@@ -17,7 +18,7 @@ const moment = require("moment");
 const anychart = require("anychart")(window);
 const anychartExport = require("anychart-nodejs")(anychart);
 
-const fs = require("fs");
+
 
 if (process.env.NODE_ENV === "production") {
 	app.use(express.static("client"));
@@ -151,7 +152,7 @@ function send_chart(channel, text, data) {
 	*/
 
 	var chart = anychart.bar(data);
-	chart.bounds(0, 0, 800, 600);
+	//chart.bounds(0, 0, 800, 600);
 	chart.container("container");
 	chart.draw();
 
