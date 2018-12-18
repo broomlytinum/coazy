@@ -119,6 +119,7 @@ function get_word_frequencies(messages, k=10) {
 			if (stopwords.indexOf(word) == -1) {
 				data.push({x: word, y: frequencies[word]});
 			}
+		}
 		else {
 			break;
 		}
@@ -166,7 +167,9 @@ client.on("message", msg => {
   		var todays_messages = [];
 
 		get_messages(todays_messages, channel, todays_date, 100);
+
 	}
+
 });
 
 client.login(process.env.BOT_TOKEN);
