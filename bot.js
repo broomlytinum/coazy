@@ -45,7 +45,13 @@ function message_stats(messages, channel, start_date) {
 
 function get_messages(collector, channel, start_date, limit, before=null) {
 	console.log(moment(before.createdAt).format("MM-DD-YYYY"));
-	channel.fetchMessages({limit: limit, before: before.id})
+
+	options = {limit: limit};
+	if (before) {
+		options.before = before.id;
+	}
+
+	channel.fetchMessages(options)
 		.then(messages => {
 			var finished = false;
 			var earliest_message = before;
