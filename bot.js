@@ -144,7 +144,7 @@ function message_stats(messages, channel, start_date) {
 
 		word_frequencies = get_word_frequencies(messages, k=10);
 
-		send_chart(channel, "Top Words by Frequency:" {
+		send_chart(channel, "Top Words by Frequency:", {
 			type: "horizontalBar",
 		    data: word_frequencies,
 		    options: {}
