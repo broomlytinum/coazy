@@ -134,8 +134,10 @@ function get_word_frequencies(messages, k=10) {
 function send_chart(channel, text, chart_options) {
 	var chart = new Chartjs(600, 600);
 
-	chart.drawChart(chart_options).then(() => {
-	    return chartNode.getImageBuffer("image/png");
+	chart.makeChart(chart_options)
+	.then(res => {
+		chart.drawChart();
+	    return chart.getImageBuffer("image/png");
 	})
 	.then(buffer => {
 		channel.sendFile(buffer, content=text);
