@@ -135,7 +135,7 @@ function send_chart(channel, text, chart_options) {
 	})
 	.then(buffer => {
 		channel.sendFile(buffer, content=text);
-	};
+	});
 }
 
 function message_stats(messages, channel, start_date) {
