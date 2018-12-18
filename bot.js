@@ -150,8 +150,8 @@ function send_chart(channel, text, data) {
 	});
 	*/
 
-	var chart = anychart.bar();
-	var series = chart.bar(data);
+	var chart = anychart.bar(data);
+	chart.bounds(0, 0, 800, 600);
 	chart.container("container");
 	chart.draw();
 
