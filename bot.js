@@ -44,10 +44,10 @@ function message_stats(messages, channel, start_date) {
 }
 
 function get_messages(collector, channel, start_date, limit, before=null) {
-	console.log(moment(before.createdAt).format("MM-DD-YYYY"));
-
+	
 	options = {limit: limit};
 	if (before) {
+		console.log(moment(before.createdAt).format("MM-DD-YYYY"));
 		options.before = before.id;
 	}
 
