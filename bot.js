@@ -42,7 +42,7 @@ function get_messages(collector, channel, start_date, limit, before=null) {
 			var finished = false;
 			var earliest_message = before;
 
-			message.forEach(message => {
+			messages.forEach(message => {
 				if (message.createdAt.getTime() < start_date.getTime()) {
 					finished = true;
 				} else {
