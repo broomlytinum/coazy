@@ -9,7 +9,7 @@ const client = new Discord.Client();
 const https = require("https");
 const bodyParser = require("body-parser");
 const moment = require("moment");
-const Chartjs = require("chartjs");
+const Chartjs = require("chartjs-node-canvas");
 const fs = require("fs");
 
 if (process.env.NODE_ENV === "production") {
@@ -134,10 +134,8 @@ function get_word_frequencies(messages, k=10) {
 function send_chart(channel, text, chart_options) {
 	var chart = new Chartjs(600, 600);
 
-	chart.makeChart(chart_options)
-	.then(res => {
-		chart.drawChart();
-	    return chart.getImageBuffer("image/png");
+	chart.drawChart(chart_options).then(() => {
+	    return chartNode.getImageBuffer("image/png");
 	})
 	.then(buffer => {
 		channel.sendFile(buffer, content=text);
