@@ -47,7 +47,6 @@ function get_messages(collector, channel, start_date, limit, before=null) {
 	
 	options = {limit: limit};
 	if (before) {
-		console.log(moment(before.createdAt).format("MM-DD-YYYY"));
 		options.before = before.id;
 	}
 
@@ -58,13 +57,12 @@ function get_messages(collector, channel, start_date, limit, before=null) {
 
 			messages.forEach(message => {
 				if (day_before(message.createdAt, start_date)) {
-					console.log(moment(message.createdAt).format("MM-DD-YYYY"));
-					console.log(message.createdAt.getTime());
-					console.log(start_date.getTime());
 					finished = true;
 				} else {
-					earliest_message = message;
-					collector.push(message);
+					if (!message.author.bot) {
+						earliest_message = message;
+						collector.push(message);
+					}
 				}
 			});
 
