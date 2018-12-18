@@ -44,6 +44,8 @@ function get_messages(collector, channel, start_date, limit, before=null) {
 
 			messages.forEach(message => {
 				if (message.createdAt.getTime() < start_date.getTime()) {
+					console.log(message.createdAt.getTime());
+					console.log(start_date.getTime());
 					finished = true;
 				} else {
 					earliest_message = message;
