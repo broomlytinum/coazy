@@ -18,6 +18,7 @@
     "express": "^4.16.4",
     "fs": "0.0.1-security",
     "jquery": "^3.3.1",
+    "jsdom": "^13.1.0",
     "moment": "^2.23.0",
     "node-fetch": "^2.3.0",
     "passport-discord": "^0.1.3",

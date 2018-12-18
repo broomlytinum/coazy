@@ -6,11 +6,17 @@ const Discord = require("discord.js");
 
 const client = new Discord.Client();
 
+var JSDOM = require('jsdom').JSDOM;
+var jsdom = new JSDOM('', {runScripts: 'dangerously'});
+var window = jsdom.window;
+
 const https = require("https");
 const bodyParser = require("body-parser");
 const moment = require("moment");
-const anychart = require("anychart");
-const anychartExport = require("anychart-nodejs");
+
+const anychart = require("anychart")(window);
+const anychartExport = require("anychart-nodejs")(anychart);
+
 const fs = require("fs");
 
 if (process.env.NODE_ENV === "production") {
