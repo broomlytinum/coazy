@@ -157,7 +157,7 @@ function message_stats(messages, channel, start_date) {
 
 client.on("message", msg => {
 
-	if (msg.content === "coazy.stats") {
+	if (msg.content === "coazy.stats.words") {
 
 		var channel = client.channels.get(msg.channel.id);
   		var server = channel.guild;
