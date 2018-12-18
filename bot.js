@@ -2,14 +2,15 @@ const express = require("express");
 const path = require("path");
 const app = express();
 
-var https = require("https");
-
 const Discord = require("discord.js");
+
 const client = new Discord.Client();
 
+const https = require("https");
 const bodyParser = require("body-parser");
-
 const moment = require("moment");
+const Chartjs = require("chartjs");
+const fs = require("fs");
 
 if (process.env.NODE_ENV === "production") {
 	app.use(express.static("client"));
@@ -35,16 +36,7 @@ function day_before(a, b) {
     return (a_.getTime() < b_.getTime());
 }
 
-function message_stats(messages, channel, start_date) {
-	if (messages.length) {
-		channel.send(`DEBUG: There are ${messages.length} messages in this channel since ${moment(start_date).format("MM-DD-YYYY")}.`);
-	} else {
-		channel.send(`There are no messages in this channel since ${moment(start_date).format("MM-DD-YYYY")} to analyze.`);
-	}
-}
-
-function get_messages(collector, channel, start_date, limit, before=null) {
-	
+function get_messages(collector, channel, start_date, limit, before=null) {	
 	options = {limit: limit};
 	if (before) {
 		options.before = before.id;
@@ -75,6 +67,94 @@ function get_messages(collector, channel, start_date, limit, before=null) {
 		.catch(console.error);
 }
 
+function tokenize(text) {
+	return text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+}
+
+function get_words(message) {
+	var words = tokenize(message.content).split(' ');
+}
+
+function init_frequency_compare(frequencies) {
+	return function frequency_compare(a, b) {
+		if (frequencies[a] < frequencies[b]) {
+			return 1;
+		}
+		if (frequencies[a] > frequencies[b]) {
+			return -1;
+		}
+		return 0;
+	}
+}
+
+function get_word_frequencies(messages, k=10) {
+	var words = [];
+	for (var msg in messages) {
+		words.push.apply(words, get_words(msg));
+	}
+
+	var frequencies = {};
+
+	try {
+		var stopwords = fs.readFileSync("./utils/stopwords.txt", "utf8").toString().split("\n");
+	} catch(e) {
+    	console.log(e);
+	}
+
+	var unique_words = new Set(words);
+	unique_words.forEach(word => {
+		frequencies[word] = 0;
+	});
+
+	for (var word in words) {
+		frequencies[word]++;
+	}
+
+	var words_by_freq = (new Array(unique_words)).sort(init_frequency_compare(frequencies));
+
+	var data = [];
+	for (var i = 0; i < k; i++) {
+		if (i < words_by_freq.length) {
+			var word = words_by_freq[i];
+			if (stopwords.indexOf(word) == -1) {
+				data.push({x: word, y: frequencies[word]});
+			}
+		else {
+			break;
+		}
+	}
+
+	return data;
+}
+
+function send_chart(channel, text, chart_options) {
+	var chart = new Chartjs(600, 600);
+
+	chart.drawChart(chart_options).then(() => {
+	    return chartNode.getImageBuffer("image/png");
+	})
+	.then(buffer => {
+		channel.sendFile(buffer, content=text);
+	}
+}
+
+function message_stats(messages, channel, start_date) {
+	if (messages.length) {
+		// channel.send(`DEBUG: There are ${messages.length} messages in this channel since ${moment(start_date).format("MM-DD-YYYY")}.`);
+
+		word_frequencies = get_word_frequencies(messages, k=10);
+
+		send_chart(channel, "Top Words by Frequency:" {
+			type: "horizontalBar",
+		    data: word_frequencies,
+		    options: {}
+		});
+
+	} else {
+		channel.send(`There are no messages in this channel since ${moment(start_date).format("MM-DD-YYYY")} to analyze.`);
+	}
+}
+
 client.on("message", msg => {
 
 	if (msg.content === "coazy.stats") {
@@ -84,7 +164,6 @@ client.on("message", msg => {
 
   		var todays_date = new Date();
   		var todays_messages = [];
-
 
 		get_messages(todays_messages, channel, todays_date, 100);
 	}
