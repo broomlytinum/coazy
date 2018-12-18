@@ -145,7 +145,7 @@ function send_chart(channel, text, data) {
 
 	var chart = "var chart = anychart.bar(data); chart.bounds(0, 0, 800, 600); chart.container('container'); chart.draw()";
 
-	anychartExport.exportTo(chart, "png")
+	anychart.exportTo(chart, "png")
 	.then(function(buffer) {
 		channel.sendFile(buffer, content=text);
 	});
