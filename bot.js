@@ -9,7 +9,8 @@ const client = new Discord.Client();
 const https = require("https");
 const bodyParser = require("body-parser");
 const moment = require("moment");
-const anychart = require("anychart-nodejs");
+const anychart = require("anychart");
+const anychartExport = require("anychart-nodejs");
 const fs = require("fs");
 
 if (process.env.NODE_ENV === "production") {
@@ -143,9 +144,11 @@ function send_chart(channel, text, data) {
 	});
 	*/
 
-	var chart = "var chart = anychart.bar(data); chart.bounds(0, 0, 800, 600); chart.container('container'); chart.draw()";
+	var chart = anychart.bar();
+	var series = chart.bar(data);
+	chart.draw();
 
-	anychart.exportTo(chart, "png")
+	anychartExport.exportTo(chart, "png")
 	.then(function(buffer) {
 		channel.sendFile(buffer, content=text);
 	});
