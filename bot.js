@@ -10,11 +10,9 @@ const client = new Discord.Client();
 const bodyParser = require("body-parser");
 
 if (process.env.NODE_ENV === "production") {
-	app.use(express.static("client/build"));
+	app.use(express.static("client"));
 	app.use(bodyParser.urlencoded({extended: true}))
 	app.use(bodyParser.json());
-
-	app.use("/api/discord", require("./api/discord"));
 
 	const path = require("path");
 	app.get('*', (req, res) => {
