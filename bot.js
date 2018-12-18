@@ -73,7 +73,7 @@ function tokenize(text) {
 
 function get_words(message) {
 	if (message.content) {
-		return var words = tokenize(message.content).split(' ');
+		return tokenize(message.content).split(' ');
 	}
 	return [];
 }
