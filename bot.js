@@ -9,7 +9,7 @@ const client = new Discord.Client();
 const https = require("https");
 const bodyParser = require("body-parser");
 const moment = require("moment");
-const anychart = require("anychart-nodejs");
+const anychart = require("anychart");
 const fs = require("fs");
 
 if (process.env.NODE_ENV === "production") {
