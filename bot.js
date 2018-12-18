@@ -28,6 +28,13 @@ client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
+function day_before(a, b) {
+	var a_ = new Date(a.getFullYear(), a.getMonth(), a.getDate());
+    var b_ = new Date(b.getFullYear(), b.getMonth(), b.getDate());
+
+    return (a_.getTime() < b_.getTime());
+}
+
 function message_stats(messages, channel, start_date) {
 	if (messages.length) {
 		channel.send(`DEBUG: There are ${messages.length} messages in this channel since ${moment(start_date).format("MM-DD-YYYY")}.`);
@@ -43,7 +50,7 @@ function get_messages(collector, channel, start_date, limit, before=null) {
 			var earliest_message = before;
 
 			messages.forEach(message => {
-				if (message.createdAt.getTime() < start_date.getTime()) {
+				if (day_before(message.createdAt, start_date)) {
 					console.log(moment(message.createdAt).format("MM-DD-YYYY"));
 					console.log(message.createdAt.getTime());
 					console.log(start_date.getTime());
