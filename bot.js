@@ -72,7 +72,10 @@ function tokenize(text) {
 }
 
 function get_words(message) {
-	var words = tokenize(message.content).split(' ');
+	if (message.content) {
+		return var words = tokenize(message.content).split(' ');
+	}
+	return [];
 }
 
 function init_frequency_compare(frequencies) {
