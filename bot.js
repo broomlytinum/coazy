@@ -152,11 +152,11 @@ function send_chart(channel, text, data) {
 	*/
 
 	var chart = anychart.bar(data);
-	//chart.bounds(0, 0, 800, 600);
+	chart.bounds(0, 0, 800, 600);
 	chart.container("container");
 	chart.draw();
 
-	anychartExport.exportTo(chart, "png")
+	anychartExport.exportTo(chart, "jpg")
 	.then(function(buffer) {
 		channel.sendFile(buffer, content=text);
 	});
