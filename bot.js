@@ -162,6 +162,7 @@ function send_chart(channel, text, data) {
 
 	anychartExport.exportTo(chart, "png")
 	.then(function(buffer) {
+		console.log("got buffer...");
 		if (buffer) {
 			channel.sendFile(buffer, name="chart.png");
 		}
