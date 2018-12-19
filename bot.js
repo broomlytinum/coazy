@@ -151,8 +151,10 @@ function send_chart(channel, text, data) {
 	});
 	*/
 
-	var chart = anychart.bar(data);
-	chart.bounds(0, 0, 20, 20);
+	var chart = anychart.bar();
+	var series = chart.bar(data);
+
+	chart.bounds(0, 0, 800, 600);
 	chart.title(text);
 	chart.container("container");
 	console.log("about to create chart");
