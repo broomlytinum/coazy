@@ -166,6 +166,8 @@ function send_chart(channel, text, data) {
 		if (buffer) {
 			channel.sendFile(buffer, name="chart.png");
 		}
+	}, function (error) {
+    	console.log(error);
 	});
 }
 
