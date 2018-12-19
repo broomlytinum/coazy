@@ -176,11 +176,11 @@ function send_chart(channel, text, data) {
 
 	console.log("created chart!");
 
-	anychartExport.exportTo(chart, "png")
+	anychartExport.exportTo(chart, "pdf")
 	.then(function(buffer) {
 		console.log("got buffer...");
 		if (buffer) {
-			channel.sendFile(buffer, name="chart.png");
+			channel.sendFile(buffer, name="chart.pdf");
 		}
 	}, function (error) {
     	console.log(error);
