@@ -155,13 +155,16 @@ function send_chart(channel, text, data) {
 	chart.bounds(0, 0, 800, 600);
 	chart.title(text);
 	chart.container("container");
+	console.log("about to create chart");
 	chart.draw();
 
 	console.log("created chart!");
 
 	anychartExport.exportTo(chart, "png")
 	.then(function(buffer) {
-		channel.sendFile(buffer, name="chart.png");
+		if (buffer) {
+			channel.sendFile(buffer, name="chart.png");
+		}
 	});
 }
 
