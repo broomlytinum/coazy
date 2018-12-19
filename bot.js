@@ -8,7 +8,7 @@ const client = new Discord.Client();
 const fs = require("fs");
 
 var JSDOM = require('jsdom').JSDOM;
-var jsdom = new JSDOM("<html><head></head><body><div id=\"container\" style=\"width: 500px; height: 400px;\"></div></body></html>", {runScripts: 'dangerously'});
+var jsdom = new JSDOM('<body><div id="container"></div></body>', {runScripts: 'dangerously'});
 var window = jsdom.window;
 
 const https = require("https");
@@ -153,12 +153,15 @@ function send_chart(channel, text, data) {
 
 	var chart = anychart.bar(data);
 	chart.bounds(0, 0, 800, 600);
+	chart.title(text);
 	chart.container("container");
 	chart.draw();
 
+	console.log("created chart!");
+
 	anychartExport.exportTo(chart, "png")
 	.then(function(buffer) {
-		channel.sendFile(buffer, name="chart.png", content=text);
+		channel.sendFile(buffer, name="chart.png");
 	});
 }
 
