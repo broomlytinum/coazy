@@ -156,9 +156,9 @@ function send_chart(channel, text, data) {
 	chart.container("container");
 	chart.draw();
 
-	anychartExport.exportTo(chart, "jpg")
+	anychartExport.exportTo(chart, "png")
 	.then(function(buffer) {
-		channel.sendFile(buffer, content=text);
+		channel.sendFile(buffer, name="chart.png", content=text);
 	});
 }
 
