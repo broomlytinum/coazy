@@ -81,6 +81,7 @@ function tokenize(text) {
 
 function get_words(message) {
 	if (message.content) {
+		//console.log(message.content);
 		return tokenize(message.content).split(' ');
 	}
 	return [];
@@ -99,10 +100,16 @@ function init_frequency_compare(frequencies) {
 }
 
 function get_word_frequencies(messages, k=10) {
+
+	//console.log(messages.length);
+
 	var words = [];
-	for (var msg in messages) {
+	for (var i = 0; i < messages.length; i++) {
+		var msg = messages[i];
 		words.push.apply(words, get_words(msg));
 	}
+
+	//console.log(words.length);
 
 	var frequencies = {};
 
@@ -113,15 +120,20 @@ function get_word_frequencies(messages, k=10) {
 	}
 
 	var unique_words = new Set(words);
+	//console.log("unique:");
+	//console.log(unique_words.size);
+
 	unique_words.forEach(word => {
 		frequencies[word] = 0;
 	});
 
-	for (var word in words) {
+	for (var i = 0; i < words.length; i++) {
+		var word = words[i];
 		frequencies[word]++;
 	}
 
-	var words_by_freq = (new Array(unique_words)).sort(init_frequency_compare(frequencies));
+	var words_by_freq = (Array.from(unique_words)).sort(init_frequency_compare(frequencies));
+	//console.log(words_by_freq.length);
 
 	var data = [];
 	for (var i = 0; i < k; i++) {
@@ -150,6 +162,8 @@ function send_chart(channel, text, data) {
 		channel.sendFile(buffer, content=text);
 	});
 	*/
+
+	console.log(data.length);
 
 	var chart = anychart.bar();
 	var series = chart.bar(data);
